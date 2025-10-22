@@ -23,7 +23,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      - deunhealth.restart.on.unhealthy=true
+      deunhealth.restart.on.unhealthy: "true"
     restart: unless-stopped
 
   uptime-kuma:
@@ -38,7 +38,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /volume2/docker/data/uptime-kuma/data:/app/data
     labels:
-      - deunhealth.restart.on.unhealthy=true
+      deunhealth.restart.on.unhealthy: "true"
     restart: unless-stopped
 
   homepage:
@@ -53,5 +53,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /volume2/docker/data/homepage/config:/app/config
     labels:
-      - deunhealth.restart.on.unhealthy=true
+      deunhealth.restart.on.unhealthy: "true"
     restart: unless-stopped
