@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  deunhealth:
+    image: qmcgaw/deunhealth
+    container_name: deunhealth
+    network_mode: "none"
+    environment:
+      TZ: ${TZ}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    environment:
+      TZ: ${TZ}
+      WATCHTOWER_SCHEDULE: 0 0 4 * * *
+      WATCHTOWER_CLEANUP: "true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    ports:
+      - "3001:3001"
+    environment:
+      TZ: ${TZ}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /volume2/docker/data/uptime-kuma/data:/app/data
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    restart: unless-stopped
