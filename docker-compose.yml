@@ -40,3 +40,18 @@ services:
     labels:
       - deunhealth.restart.on.unhealthy=true
     restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - "3002:3000"
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /volume2/docker/data/homepage/config:/app/config
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    restart: unless-stopped
