@@ -26,21 +26,6 @@ services:
       deunhealth.restart.on.unhealthy: "true"
     restart: unless-stopped
 
-  uptime-kuma:
-    image: louislam/uptime-kuma:latest
-    container_name: uptime-kuma
-    ports:
-      - "3001:3001"
-    environment:
-      TZ: ${TZ}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /volume2/docker/data/uptime-kuma/data:/app/data
-    labels:
-      deunhealth.restart.on.unhealthy: "true"
-    restart: unless-stopped
-
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
@@ -62,6 +47,39 @@ services:
     ports:
       - "6000:3000"
       - "6001:3001"
+    labels:
+      deunhealth.restart.on.unhealthy: "true"
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    ports:
+      - "3001:3001"
+    environment:
+      TZ: ${TZ}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /volume2/docker/data/uptime-kuma/data:/app/data
+    labels:
+      deunhealth.restart.on.unhealthy: "true"
+    restart: unless-stopped
+
+  dockge:
+    image: louislam/dockge:latest
+    container_name: dockge
+    ports:
+      - "5001:5001"
+    environment:
+      TZ: ${TZ}
+      DOCKGE_STACKS_DIR: /volume2/docker/stacks
+      DOCKGE_ENABLE_CONSOLE: "true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /volume2/docker/data/dockge/data:/app/data
+      - /volume2/docker/stacks:/volume2/docker/stacks
     labels:
       deunhealth.restart.on.unhealthy: "true"
     restart: unless-stopped
