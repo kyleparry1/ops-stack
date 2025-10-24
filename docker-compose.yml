@@ -97,5 +97,4 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /volume2/docker/data/duplicati/config:/config
       - /volume2/docker:/source/docker
-      - /mnt/@usb/sdc1/backups:/backups
     restart: unless-stopped
